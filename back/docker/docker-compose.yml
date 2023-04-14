@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  zerf-identity-api:
+    container_name: zerf-identity-api
+    build:
+      context: ../
+      dockerfile: docker/dockerfile
+    restart: always
+    volumes:
+      - ../src:/app/back/src
+    env_file:
+      - ../.env
+    ports:
+      - 3001:3001
+    networks:
+      - zerf-identity-network
+
+  zerf-identity-db:
+    image: postgres:15.1
+    container_name: zerf-identity-db
+    environment:
+      - POSTGRES_DB=zerf-identity
+      - POSTGRES_USER=zerf
+      - POSTGRES_PASSWORD=zerf
+    ports:
+      - "5433:5432"
+    volumes:
+      - db:/var/lib/postgresql/data
+    networks:
+      - zerf-identity-network
+
+volumes:
+  db:
+    driver: local
+
+networks:
+  zerf-identity-network:
