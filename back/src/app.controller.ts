@@ -1,6 +1,8 @@
 import { Body, Controller, Get, NotFoundException, Post, Put } from '@nestjs/common';
 import { User } from '@prisma/client';
+import { generateAvatar, mapUserDataToString } from './avatar.service';
 import { PrismaService } from './prisma';
+import { uploadImage } from './upload.service';
 
 @Controller()
 export class AppController {
@@ -37,18 +39,18 @@ export class AppController {
       throw new NotFoundException()
     }
   
-    // const avatar = generateAvatar(user.data)
-    // const uploadedAvatar = upload(avatar)
-    const avatar = 'avatar.jpg'
+    await generateAvatar(mapUserDataToString(user.data))
+    const uploadedAvatar = await uploadImage('avatar.jpg', user.name)
+
     await this.prisma.user.update({
       where: {
         email
       },
       data: {
-        avatarUrl: avatar
+        avatarUrl: uploadedAvatar
       }
     })
-    return avatar
+    return uploadedAvatar
   }
 
   @Put('user/data')
@@ -58,12 +60,26 @@ export class AppController {
         email
       }
     })
+    if(!user.userDataId) {
+      const createdData = await this.prisma.userData.create({
+        data
+      })
+      await this.prisma.user.update({
+        where: {
+          email
+        },
+        data: {
+          userDataId: createdData.id
+        }
+      })
+      return createdData
+    } else {
     return this.prisma.userData.update({
       where: {
         id: user.userDataId,
       },
       data
-    })
+    })}
   }
 
   @Get('avatars')

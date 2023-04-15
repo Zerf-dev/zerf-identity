@@ -9,6 +9,7 @@ services:
     restart: always
     volumes:
       - ../src:/app/back/src
+      - ../prisma:/app/back/prisma
     env_file:
       - ../.env
     ports:
