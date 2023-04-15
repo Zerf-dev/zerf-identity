@@ -5,10 +5,10 @@ const exec = util.promisify(require('child_process').exec);
 
 const roleToText = {
     [Roles.CEO]: "a book",
-    [Roles.COO]: "a basketball",
+    [Roles.COO]: "a basketball and glasses",
     [Roles.CTO]: "a laptop",
     [Roles.DESIGNER]: "using a pencil",
-    [Roles.DEVELOPER]: "a laptop",
+    [Roles.DEVELOPER]: "as a goalkeeper",
     [Roles.PEOPLE]: "a dog",
     [Roles.PM]: "a hammer",
     [Roles.PO]: "a builder",
@@ -31,14 +31,14 @@ export const mapUserDataToString = (data: UserData) => {
     string = string += (roleToText[data.role])
     string= string += ' and '
     string= string += projectToText[data.project]
-    string= string += `, ${data.hairColor} hair`
+    string= string += `male ${data.hairColor} hair`
     string= string += `, ${data.eyes} eyes`
     string= string += ' nft style, art digital illustration close portrait'
     return string
 }
 
 async function query(data: string) {
-    const url = 'https://api-inference.huggingface.co/models/lucascheist/zerfito2';
+    const url = 'https://api-inference.huggingface.co/models/lucascheist/zerfito3';
     const options = ` -X POST \
     -d ${data} \
     -H "Authorization: Bearer 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" --output avatar.jpg`;
