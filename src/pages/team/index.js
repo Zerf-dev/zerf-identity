@@ -42,7 +42,7 @@ export default function Home() {
     setLoading(email)
     await regenerateAvatar(email)
     setLoading('')
-    // window.location.reload(true)
+    window.location.reload(true)
   }
 
   return (

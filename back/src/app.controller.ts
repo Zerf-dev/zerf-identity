@@ -51,6 +51,7 @@ export class AppController {
       throw new NotFoundException()
     }
   
+    console.log('Prompt: ', user.promp)
     await generateAvatar(user.promp)
     const uploadedAvatar = await uploadImage('avatar.jpg', user.name)
 
