@@ -1,1 +1,0 @@
-{"c":["webpack"],"r":["pages/profile"],"m":["./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?absolutePagePath=%2FUsers%2Fmaxo%2FDesktop%2FZerf%2Fzerf-identity%2Fsrc%2Fpages%2Fprofile%2Findex.js&page=%2Fprofile!","./src/components/counter.js","./src/pages/profile/index.js","./src/redux/counter/actions.js"]}
