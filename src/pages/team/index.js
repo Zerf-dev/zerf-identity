@@ -4,12 +4,14 @@ import Header from "@/components/general/header";
 import Head from "next/head";
 import Image from "next/image";
 import TestProfile from "@/assets/test_profile.jpg"
+import { useEffect, useState } from "react";
+import { getAvatars } from "@/services/loginService";
 
 function UserCard({ firstname, image}){
   return (
     <div class="flex outline outline-1 outline-gray-600 p-2 rounded-2xl">
       <div class="flex flex-col space-y-2">
-        <Image src={image} class="w-[250px] h-[250px] rounded-xl"/>
+        <img src={image} class="rounded-xl"/>
         <span class="text-xl font-bold">{firstname}</span>  
       </div>
     </div>
@@ -18,9 +20,19 @@ function UserCard({ firstname, image}){
 
 export default function Home() {
 
+  const [avatars, setAvatars] = useState([])
+
   const testUsers = [{firstname:"Test", image:TestProfile}, {firstname:"Test", image:TestProfile}, {firstname:"Test", image:TestProfile},{firstname:"Test", image:TestProfile}, {firstname:"Test", image:TestProfile}, {firstname:"Test", image:TestProfile},{firstname:"Test", image:TestProfile}, {firstname:"Test", image:TestProfile}, {firstname:"Test", image:TestProfile},{firstname:"Test", image:TestProfile}, {firstname:"Test", image:TestProfile}, {firstname:"Test", image:TestProfile},{firstname:"Test", image:TestProfile}, {firstname:"Test", image:TestProfile}, {firstname:"Test", image:TestProfile}]
 
   const users = testUsers;
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await getAvatars();
+      setAvatars(response.data);
+    }
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -40,7 +52,7 @@ export default function Home() {
               </div>
               <div class="grid grid-cols-4 gap-4 pb-4">
               {
-                users.map(({firstname, image}) => (<UserCard firstname={firstname} image={image}/>))
+                avatars.map(({name, avatar}) => (<UserCard firstname={name} image={avatar}/>))
               }
               </div>
             </div>

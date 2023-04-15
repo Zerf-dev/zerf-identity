@@ -5,6 +5,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useRouter } from 'next/router';
 
 import { login } from "@/services/loginService";
 import Cookies from 'js-cookie'
@@ -23,13 +24,14 @@ export default function Home() {
   const [name, setName] = useState('')
   const [pass, setPass] = useState('')
 
-  const dispatch = useDispatch();
+  const router = useRouter();
 
   const handleClick = async () => {
     // dispatch(loginActions.login({name, pass}))
     const user = await login({email: name, pass})
     console.log('user', user.data)
       Cookies.set('user', user.data.email);
+      router.push('/team');
   }
 
   return (

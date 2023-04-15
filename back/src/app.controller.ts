@@ -85,6 +85,6 @@ export class AppController {
   @Get('avatars')
   async getAll() {
     const users = await this.prisma.user.findMany()
-    return users.map(u => u.avatarUrl)
+    return users.map(u => ({avatar:u.avatarUrl, name: u.name}))
   }
 }
