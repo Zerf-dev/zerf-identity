@@ -5,6 +5,7 @@ import { createWrapper } from 'next-redux-wrapper';
 
 import hydrate from './hydrate/reducer';
 import counter from './counter/reducer';
+import auth from './auth/reducer'
 
 configureMergeState((state, diff) => state.merge(diff));
 
@@ -14,6 +15,7 @@ const combineReducers = wrapCombineReducers(CR);
 const reducers = combineReducers({
   hydrate,
   counter,
+  auth
 });
 
 const middlewares = [thunk, fetchMiddleware];

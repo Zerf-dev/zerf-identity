@@ -24,6 +24,18 @@ export class AppController {
     return user
   }
 
+  @Put('prompt')
+  async setPrompt(@Body('email') email: string, @Body('prompt') prompt: string) {
+    return this.prisma.user.update({
+      where: {
+        email
+      },
+      data: {
+        promp: prompt
+      }
+    })
+  }
+
   @Post('avatar/generate')
   async generateAvatar(@Body('email') email: string) {
     const user = await this.prisma.user.findUnique({
@@ -39,7 +51,8 @@ export class AppController {
       throw new NotFoundException()
     }
   
-    await generateAvatar(mapUserDataToString(user.data))
+    console.log('Prompt: ', user.promp)
+    await generateAvatar(user.promp)
     const uploadedAvatar = await uploadImage('avatar.jpg', user.name)
 
     await this.prisma.user.update({
@@ -85,6 +98,6 @@ export class AppController {
   @Get('avatars')
   async getAll() {
     const users = await this.prisma.user.findMany()
-    return users.map(u => u.avatarUrl)
+    return users.map(u => ({avatar:u.avatarUrl, name: u.name, email: u.email}))
   }
 }

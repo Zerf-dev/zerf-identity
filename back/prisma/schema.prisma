@@ -16,6 +16,7 @@ model User {
   name       String
   avatarUrl  String
   password   String
+  promp String @default("")
   data      UserData? @relation(fields: [userDataId], references: [id])
   userDataId Int?
 
