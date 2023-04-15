@@ -2,6 +2,11 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
+<<<<<<< HEAD
   "/team": "pages/team.js",
   "/": "pages/index.js"
+=======
+  "/edit_profile": "pages/edit_profile.js",
+  "/profile/[id]": "pages/profile/[id].js"
+>>>>>>> origin/front
 }
