@@ -4,10 +4,11 @@ import Frame from "@/components/general/frame";
 import TestProfile from "@/assets/test_profile.jpg"
 import Image from "next/image";
 import Bg from "@/components/general/bg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Options from "@/components/general/options";
 import ButtonZerf from "@/components/general/buttonZerf";
 import ButtonGray from "@/components/general/buttonGray";
+import { useRouter } from "next/router";
 
 function Field({ field, fieldname, placeholder}){
   return (
@@ -128,8 +129,13 @@ export default function Home() {
     eyes: "Marron"
   }
 
-  const [step, setStep] = useState(1);
+  const {query} = useRouter();
 
+  const [step, setStep] = useState(parseInt(query.step) || 1);
+
+  useEffect(() => {
+    setStep(query.step)
+  }, [query])
 
   const user = testUser;
   
