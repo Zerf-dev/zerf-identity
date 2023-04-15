@@ -4,6 +4,8 @@ import Frame from "@/components/general/frame";
 import TestProfile from "@/assets/test_profile.jpg"
 import Image from "next/image";
 import Bg from "@/components/general/bg";
+import Link from "next/link";
+import ButtonZerf from "@/components/general/buttonZerf";
 
 function Field({ fieldname, value, isList = false }){
   
@@ -17,6 +19,24 @@ function Field({ fieldname, value, isList = false }){
       }
     </div>
   );
+}
+
+function Card({children, href ="", title}){
+return (
+  <div class="w-3/4">
+    <Frame wfull={true}>
+      <div class="flex flex-col w-full p-3 space-y-3">
+        <div class="flex flex-row justify-between">
+          <span>{title}</span><Link href={href}>Editar</Link>
+        </div>
+        <div class="h-0.5 w-full bg-gray-500"/>
+        <div class="grid grid-cols-2 w-full">
+          {children}
+        </div>
+      </div>
+    </Frame>
+  </div>
+);
 }
 
 export default function Home() {
@@ -46,27 +66,34 @@ export default function Home() {
       <main class="bg-black h-screen">
         <Bg>
           <Header />
-          <div class="flex flex-row p-16 space-x-20 w-full h-full">
-            <div class="flex flex-col w-1/3">
+          <div class="flex flex-row p-16 space-x-20 w-full h-full overflow-hidden">
+            <div class="flex flex-col w-1/3 space-y-4">
+              <div class="flex flex-row w-full justify-center">
               <Frame>
                 <Image src={user.image} class="rounded-xl w-[292px]"/>
               </Frame>
+              </div>
+              <div class="flex flex-row w-full justify-center">
+              <ButtonZerf>Generar Zerfito</ButtonZerf>
+              </div>
             </div>
             <div class="flex flex-col w-2/3 space-y-5">
               <div class=" text-5xl font-semibold">
                 {user.firstname} {user.lastname}
               </div>
-              <div class="flex flex-row">
-                <div class="flex flex-col w-1/2 space-y-8">
+              <div class="flex flex-col w-full space-y-4 overflow-scroll p-2">
+                <Card title={"Name"} href={"../../edit_profile?step=1"}>
                   <Field fieldname="Rol" value={user.rol}/>
                   <Field fieldname="Projects" value={user.projects} isList={true}/>
-                </div>
-                <div class="flex flex-col w-1/2 space-y-8">
+                </Card>
+                <Card title={"Name"} href={"../../edit_profile?step=2"}>
                   <Field fieldname="Comida Favorita" value={user.food}/>
                   <Field fieldname="Hobbie" value={user.hobbie}/>
-                  <Field fieldname="Color de pelo" value={user.hair}/>
-                  <Field fieldname="Color de ojos" value={user.eyes}/>
-                </div>
+                </Card>
+                <Card title={"Name"} href={"../../edit_profile?step=3"}>
+                    <Field fieldname="Color de pelo" value={user.hair}/>
+                    <Field fieldname="Color de ojos" value={user.eyes}/>
+                </Card>
               </div>
             </div>
           </div>
