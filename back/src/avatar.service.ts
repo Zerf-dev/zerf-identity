@@ -17,12 +17,12 @@ const roleToText = {
 
 const projectToText = {
     [Projects.ADELPHI]: "in scotland",
-    [Projects.BH]: "with glasses",
-    [Projects.DEVI]: "in argentina",
+    [Projects.BH]: "in a luxury beach",
+    [Projects.DEVI]: "a lamp",
     [Projects.PJ]: "a pizza",
-    [Projects.PRIOR]: "in united",
+    [Projects.PRIOR]: "in a plain",
     [Projects.UBUNTU]: "a brifcase",
-    [Projects.YU]: "a whisky",
+    [Projects.YU]: "with a hearth",
     [Projects.LICITA]: "a dollar bill",
 }
 
@@ -38,7 +38,7 @@ export const mapUserDataToString = (data: UserData) => {
 }
 
 async function query(data: string) {
-    const url = 'https://api-inference.huggingface.co/models/lucascheist/zerfito';
+    const url = 'https://api-inference.huggingface.co/models/lucascheist/zerfito2';
     const options = ` -X POST \
     -d ${data} \
     -H "Authorization: Bearer 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" --output avatar.jpg`;
