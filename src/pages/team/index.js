@@ -5,15 +5,18 @@ import Head from "next/head";
 import Image from "next/image";
 import TestProfile from "@/assets/test_profile.jpg"
 import { useEffect, useState } from "react";
-import { getAvatars } from "@/services/loginService";
+import { getAvatars, regenerateAvatar } from "@/services/loginService";
 
-function UserCard({ firstname, image}){
+function UserCard({ firstname, email, image, onRegenerateAvatar, loading }){
   return (
-    <div class="flex outline outline-1 outline-gray-600 p-2 rounded-2xl">
+    <div class="relative">
+    {loading && <div class="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto">Regenerating...</div>}
+    <div onClick={() => onRegenerateAvatar(email)} class="flex outline outline-1 outline-gray-600 p-2 rounded-2xl cursor-pointer">
       <div class="flex flex-col space-y-2">
         <img src={image} class="rounded-xl"/>
         <span class="text-xl font-bold">{firstname}</span>  
       </div>
+    </div>
     </div>
   );
 }
@@ -21,6 +24,7 @@ function UserCard({ firstname, image}){
 export default function Home() {
 
   const [avatars, setAvatars] = useState([])
+  const [loading, setLoading] = useState('')
 
   const testUsers = [{firstname:"Test", image:TestProfile}, {firstname:"Test", image:TestProfile}, {firstname:"Test", image:TestProfile},{firstname:"Test", image:TestProfile}, {firstname:"Test", image:TestProfile}, {firstname:"Test", image:TestProfile},{firstname:"Test", image:TestProfile}, {firstname:"Test", image:TestProfile}, {firstname:"Test", image:TestProfile},{firstname:"Test", image:TestProfile}, {firstname:"Test", image:TestProfile}, {firstname:"Test", image:TestProfile},{firstname:"Test", image:TestProfile}, {firstname:"Test", image:TestProfile}, {firstname:"Test", image:TestProfile}]
 
@@ -33,6 +37,13 @@ export default function Home() {
     }
     fetchData();
   }, []);
+
+  async function handleRegen(email) {
+    setLoading(email)
+    await regenerateAvatar(email)
+    setLoading('')
+    // window.location.reload(true)
+  }
 
   return (
     <>
@@ -52,7 +63,7 @@ export default function Home() {
               </div>
               <div class="grid grid-cols-4 gap-4 pb-4">
               {
-                avatars.map(({name, avatar}) => (<UserCard firstname={name} image={avatar}/>))
+                avatars.map(({name, avatar, email}) => (<UserCard firstname={name} email={email} image={avatar} onRegenerateAvatar={handleRegen} loading={loading === email}/>))
               }
               </div>
             </div>
